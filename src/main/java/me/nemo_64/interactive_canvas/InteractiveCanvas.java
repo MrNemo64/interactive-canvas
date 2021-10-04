@@ -89,12 +89,17 @@ public class InteractiveCanvas extends JComponent {
 			public void mouseClicked(MouseEvent e) {
 				if (!SwingUtilities.isLeftMouseButton(e))
 					return;
+				boolean back = true;
 				Point2D.Float point = screenToWorld(e.getX(), e.getY());
 				for (int i = 0; i < drawables.size(); i++) {
 					Drawable d = drawables.get(i);
 					if (d.contains(new Point2D.Float(point.x, point.y))) {
 						d.onClick(e);
+						back = false;
 					}
+				}
+				if (back) {
+					onBackgroundClicked(e);
 				}
 			}
 		};
@@ -121,13 +126,15 @@ public class InteractiveCanvas extends JComponent {
 		repaint();
 	}
 
-	public Point worldToScreen(float worldX, float worldY) {
+	public void onBackgroundClicked(MouseEvent e) {}
+
+	Point worldToScreen(float worldX, float worldY) {
 		int screenX = (int) ((worldX - offsetX) * scaleX);
 		int screenY = (int) ((worldY - offsetY) * scaleY);
 		return new Point(screenX, screenY);
 	}
 
-	public Point2D.Float screenToWorld(int screenX, int screenY) {
+	Point2D.Float screenToWorld(int screenX, int screenY) {
 		float worldX = ((float) screenX / scaleX) + offsetX;
 		float worldY = ((float) screenY / scaleY) + offsetY;
 		return new Point2D.Float(worldX, worldY);
