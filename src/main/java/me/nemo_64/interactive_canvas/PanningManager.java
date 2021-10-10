@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class PanningManager implements MouseMotionListener, MouseListener {
+class PanningManager implements MouseMotionListener, MouseListener {
 
 	private final InteractiveCanvas canvas;
 

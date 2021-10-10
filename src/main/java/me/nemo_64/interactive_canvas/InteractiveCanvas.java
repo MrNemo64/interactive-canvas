@@ -3,7 +3,6 @@ package me.nemo_64.interactive_canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -11,11 +10,14 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
+import me.nemo_64.interactive_canvas.event.InteractiveCanvasClickEvent;
+
 public class InteractiveCanvas extends JComponent {
 
 	private static final long serialVersionUID = 8313047413598853397L;
 
 	final List<Drawable> drawables = new ArrayList<>();
+	final List<Interactable> interactables = new ArrayList<>();
 	private final CanvasGraphics graphics = new CanvasGraphics(this);
 
 	ClickManager clickManager;
@@ -32,6 +34,7 @@ public class InteractiveCanvas extends JComponent {
 		panningManager.initVars();
 
 		addMouseListener(clickManager);
+		addMouseMotionListener(clickManager);
 		addMouseWheelListener(zoomingManager);
 		addMouseListener(panningManager);
 		addMouseMotionListener(panningManager);
@@ -54,7 +57,7 @@ public class InteractiveCanvas extends JComponent {
 		repaint();
 	}
 
-	public void onBackgroundClicked(MouseEvent e) {}
+	public void onBackgroundClicked(InteractiveCanvasClickEvent e) {}
 
 	Point worldToScreen(float worldX, float worldY) {
 		int screenX = (int) ((worldX - panningManager.offsetX) * zoomingManager.scaleX);
@@ -76,6 +79,12 @@ public class InteractiveCanvas extends JComponent {
 		return getHeight();
 	}
 
+	public boolean addDrawableAndInteractable(Object inter) {
+		if (!(inter instanceof Drawable && inter instanceof Interactable))
+			throw new IllegalArgumentException("inter must implement Drawable and Interactable");
+		return addDrawable((Drawable) inter) & addInteractable((Interactable) inter);
+	}
+
 	public boolean addDrawable(Drawable drawable) {
 		return this.drawables.add(drawable);
 	}
@@ -90,6 +99,22 @@ public class InteractiveCanvas extends JComponent {
 
 	public int drawablesSize() {
 		return this.drawables.size();
+	}
+
+	public boolean addInteractable(Interactable interactable) {
+		return this.interactables.add(interactable);
+	}
+
+	public boolean removeInteractable(Interactable interactable) {
+		return this.interactables.remove(interactable);
+	}
+
+	public Interactable removeInteractable(int pos) {
+		return this.interactables.remove(pos);
+	}
+
+	public int interactableSize() {
+		return this.interactables.size();
 	}
 
 	public float getScaleX() {
