@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
+
+import me.nemo_64.interactive_canvas.event.InteractiveCanvasClickEvent;
+import me.nemo_64.interactive_canvas.event.InteractiveCanvasDragEvent;
 
 public class TestCanvas {
 
@@ -20,8 +24,14 @@ public class TestCanvas {
 	}
 
 	public void testCanvas() {
+		List<Sphere> list = new ArrayList<>();
 		JFrame frame = new JFrame();
-		InteractiveCanvas canvas = new InteractiveCanvas();
+		InteractiveCanvas canvas = new InteractiveCanvas() {
+			@Override
+			public void onBackgroundClicked(InteractiveCanvasClickEvent e) {
+				list.forEach((s) -> s.h = false);
+			}
+		};
 		canvas.setPreferredSize(new Dimension(400, 400));
 		frame.add(canvas);
 		frame.pack();
@@ -35,17 +45,21 @@ public class TestCanvas {
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == 'a') {
 					stop = true;
-				} else if(e.getKeyChar() == 'q') {
+				} else if (e.getKeyChar() == 'q') {
 					stop = false;
 				}
 			}
 		});
-		for (int i = 0; i < 10; i++)
-			for (int j = 0; j < 10; j++)
-				canvas.addDrawable(new Sphere(i, j, 1));
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				Sphere s = new Sphere(i, j, 1);
+				list.add(s);
+				canvas.addDrawableAndInteractable(s);
+			}
+		}
 	}
 
-	class Sphere implements Drawable {
+	class Sphere implements Drawable, Interactable {
 
 		private Ellipse2D.Float s;
 		private boolean h = false, r = false;
@@ -81,8 +95,23 @@ public class TestCanvas {
 		}
 
 		@Override
-		public void onClick(MouseEvent e) {
+		public void onClick(InteractiveCanvasClickEvent e) {
 			h = true;
+		}
+
+		@Override
+		public void onDragInto(InteractiveCanvasDragEvent e) {
+			System.out.println("drag into");
+		}
+
+		@Override
+		public void onDragOuto(InteractiveCanvasDragEvent e) {
+			System.out.println("drag outo");
+		}
+
+		@Override
+		public void onDragInside(InteractiveCanvasDragEvent e) {
+			System.out.println("drag inside");
 		}
 
 	}
