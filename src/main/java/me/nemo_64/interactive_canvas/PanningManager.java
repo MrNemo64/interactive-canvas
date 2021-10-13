@@ -32,8 +32,7 @@ class PanningManager implements MouseMotionListener, MouseListener {
 			float mouseX = e.getX();
 			float mouseY = e.getY();
 
-			offsetX -= (mouseX - startPanX) / canvas.zoomingManager.scaleX;
-			offsetY -= (mouseY - startPanY) / canvas.zoomingManager.scaleY;
+			canvas.moveScreen(-((mouseX - startPanX) / canvas.getScaleX()), -((mouseY - startPanY) / canvas.getScaleY()));
 
 			startPanX = e.getX();
 			startPanY = e.getY();

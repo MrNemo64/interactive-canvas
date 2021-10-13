@@ -59,6 +59,28 @@ public class InteractiveCanvas extends JComponent {
 
 	public void onBackgroundClicked(InteractiveCanvasClickEvent e) {}
 
+	public void moveScreen(float moveX, float moveY) {
+		panningManager.offsetX += moveX;
+		panningManager.offsetY += moveY;
+	}
+
+	public void setScreenPosition(float x, float y) {
+		panningManager.offsetX = x;
+		panningManager.offsetY = y;
+	}
+
+	public void addZoom(float scaleX, float scaleY) {
+		zoomingManager.scaleX *= scaleX;
+		zoomingManager.scaleY *= scaleY;
+		zoomingManager.checkValues();
+	}
+
+	public void setZoom(float scaleX, float scaleY) {
+		zoomingManager.scaleX = scaleX;
+		zoomingManager.scaleY = scaleY;
+		zoomingManager.checkValues();
+	}
+
 	Point worldToScreen(float worldX, float worldY) {
 		int screenX = (int) ((worldX - panningManager.offsetX) * zoomingManager.scaleX);
 		int screenY = (int) ((worldY - panningManager.offsetY) * zoomingManager.scaleY);

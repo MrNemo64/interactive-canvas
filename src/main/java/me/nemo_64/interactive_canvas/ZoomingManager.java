@@ -29,17 +29,23 @@ class ZoomingManager implements MouseWheelListener {
 
 		float scroll = (float) e.getPreciseWheelRotation();
 		if (scroll < 0) {
-			scaleX *= 1.115f;
-			scaleY *= 1.115f;
+			canvas.addZoom(1.115f, 1.115f);
 		} else {
-			scaleX *= 0.885f;
-			scaleY *= 0.885f;
+			canvas.addZoom(0.885f, 0.885f);
 		}
 
 		Point2D.Float mouseAfterZoom = canvas.screenToWorld(mouseX, mouseY);
 
-		canvas.panningManager.offsetX += (mouseBeforeZoom.x - mouseAfterZoom.x);
-		canvas.panningManager.offsetY += (mouseBeforeZoom.y - mouseAfterZoom.y);
+		canvas.moveScreen(mouseBeforeZoom.x - mouseAfterZoom.x, mouseBeforeZoom.y - mouseAfterZoom.y);
+	}
+
+	public void checkValues() {
+		if (scaleX <= 0) {
+			scaleX = 0.00001f;
+		}
+		if (scaleY <= 0) {
+			scaleY = 0.00001f;
+		}
 	}
 
 }
