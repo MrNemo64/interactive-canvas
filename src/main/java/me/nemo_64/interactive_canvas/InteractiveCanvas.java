@@ -1,5 +1,6 @@
 package me.nemo_64.interactive_canvas;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -81,6 +82,11 @@ public class InteractiveCanvas extends JComponent {
 		zoomingManager.checkValues();
 	}
 
+	@Override
+	public void setBackground(Color bg) {
+		graphics.setBackground(bg);
+	}
+
 	Point worldToScreen(float worldX, float worldY) {
 		int screenX = (int) ((worldX - panningManager.offsetX) * zoomingManager.scaleX);
 		int screenY = (int) ((worldY - panningManager.offsetY) * zoomingManager.scaleY);
@@ -121,6 +127,14 @@ public class InteractiveCanvas extends JComponent {
 
 	public int drawablesSize() {
 		return this.drawables.size();
+	}
+
+	public List<Drawable> getDrawables() {
+		return drawables;
+	}
+
+	public List<Interactable> getInteractables() {
+		return interactables;
 	}
 
 	public boolean addInteractable(Interactable interactable) {

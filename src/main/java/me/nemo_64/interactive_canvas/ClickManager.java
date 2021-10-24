@@ -27,7 +27,7 @@ class ClickManager implements MouseListener, MouseMotionListener {
 		boolean back = true;
 		Point2D.Float point = canvas.screenToWorld(e.getX(), e.getY());
 		InteractiveCanvasClickEvent event = new InteractiveCanvasClickEvent(canvas, new Point(e.getX(), e.getY()),
-				new Point2D.Float(point.x, point.y), e.getButton(), e.getModifiersEx());
+				new Point2D.Float(point.x, point.y), e.getButton(), e.getModifiersEx(), e.getClickCount());
 		for (int i = 0; i < canvas.interactables.size(); i++) {
 			Interactable interactable = canvas.interactables.get(i);
 			if (interactable.contains(new Point2D.Float(point.x, point.y))) {
@@ -47,7 +47,7 @@ class ClickManager implements MouseListener, MouseMotionListener {
 		Point endScreenPoint = new Point(e.getX(), e.getY());
 		Point2D.Float endWorldPoint = canvas.screenToWorld(e.getX(), e.getY());
 		InteractiveCanvasDragEvent event = new InteractiveCanvasDragEvent(canvas, startScreen, startWorld, endScreenPoint,
-				endWorldPoint, e.getButton(), e.getModifiersEx());
+				endWorldPoint, e.getButton(), e.getModifiersEx(), e.getClickCount());
 
 		for (int i = 0; i < canvas.interactables.size(); i++) {
 			Interactable interactable = canvas.interactables.get(i);

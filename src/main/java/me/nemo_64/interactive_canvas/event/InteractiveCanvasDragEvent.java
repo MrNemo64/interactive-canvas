@@ -12,8 +12,8 @@ public class InteractiveCanvasDragEvent extends InteractiveCanvasClickEvent {
 	private final Point2D.Float toWorldLocation;
 
 	public InteractiveCanvasDragEvent(InteractiveCanvas canvas, Point startScreenLocation, Float startWorldLocation,
-			Point toScreenLocation, Float toWorldLocation, int button, int modifiers) {
-		super(canvas, startScreenLocation, startWorldLocation, button, modifiers);
+			Point toScreenLocation, Float toWorldLocation, int button, int modifiers, int clickCount) {
+		super(canvas, startScreenLocation, startWorldLocation, button, modifiers, clickCount);
 		this.toScreenLocation = toScreenLocation;
 		this.toWorldLocation = toWorldLocation;
 	}

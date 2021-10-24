@@ -12,14 +12,23 @@ public class InteractiveCanvasClickEvent extends InteractiveCanvasEvent {
 	private final Point2D.Float worldLocation;
 	private final int button;
 	private final int modifiers;
+	private final int clickCount;
 
 	public InteractiveCanvasClickEvent(InteractiveCanvas canvas, Point screenLocation, Float worldLocation, int button,
-			int modifiers) {
+			int modifiers, int clickCount) {
 		super(canvas);
 		this.screenLocation = screenLocation;
 		this.worldLocation = worldLocation;
 		this.button = button;
 		this.modifiers = modifiers;
+		this.clickCount = clickCount;
+	}
+
+	/**
+	 * @return the clickCount
+	 */
+	public int getClickCount() {
+		return clickCount;
 	}
 
 	/**
